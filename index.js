@@ -1,7 +1,8 @@
 let operatorButtons = document.getElementsByClassName('operator');
 let numberButtons = document.getElementsByClassName('no');
 let numberInput = document.getElementById('numberInput');
-let firstNum = 0;
+let resultOutput = document.getElementById('result');
+let firstNum = undefined;
 let secondNum = undefined;
 let operation = undefined;
 let result = undefined;
@@ -19,6 +20,7 @@ var calc = (firstNum, secondNum, operation) =>
 }
 
 var reakcija1 = (ev) => { 
+    resultOutput.value = '';
     if(operation == undefined || operation == null){
     switch(ev.target.innerText){
         case '1': 
@@ -35,8 +37,16 @@ var reakcija1 = (ev) => {
             numberInput.value = x;
             if(x[0] == '0' && x.length >1 ) 
             {
-                 console.log("Greska! Nepostojeci broj");
+                 alert("Greska! Nepostojeci broj");
+                 numberInput.value = '';
+                 x = '';
                  return;
+            }
+            if(x == '' || x == null || x == undefined)
+            {
+                alert("Greska! Nepostojeci broj");
+                numberInput.value = '';
+                return;
             }
             else{
                  firstNum = parseInt(x);
@@ -44,7 +54,7 @@ var reakcija1 = (ev) => {
             }
     }}
 
-    else{
+    else{    
         switch(ev.target.innerText){
             case '1': 
             case '2':
@@ -60,14 +70,22 @@ var reakcija1 = (ev) => {
                 numberInput.value = y;
                 if(x[0] == '0' && y.length >1 ) 
                 {
-                     console.log("Greska! Nepostojeci broj");
+                     alert("Greska! Nepostojeci broj");
+                     numberInput.value = '';
                      return;
+                }
+                if(x == '' || x == null || x == undefined)
+                {
+                alert("Greska! Nepostojeci broj");
+                numberInput.value = '';
+                return;
                 }
                 else{
                      secondNum = parseInt(y);
                      console.log(secondNum);
                 }
-        }
+        
+    }
 
 
     }
@@ -80,26 +98,34 @@ var reakcija1 = (ev) => {
         {
             numberInput.value = ev.target.innerText;
             operation = ev.target.innerText;
+            console.log(firstNum);
 
             break;
         }
         else 
         {
-            console.log("Greska! Unesite prvi broj!");
+            alert("Greska! Unesite prvi broj!");
+            numberInput.value = '';
             return;
         }
 
     case '=':
             if(firstNum == null || firstNum == undefined || secondNum == undefined || secondNum == null || operation == undefined || operation == null){
                 alert("Greska! Vrijednosti nisu pravilno uensene!");
+                numberInput.value = '';
+                return;
             }
             else{
             result = calc(firstNum, secondNum, operation);
-            alert(result);
+            resultOutput.value = result;
+
             }
             x = '';
             y = '';
             operation = undefined;
+            firstNum = undefined;
+            secondNum = undefined;
+            numberInput.value = '';
     }
     }
 
